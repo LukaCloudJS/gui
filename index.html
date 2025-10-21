@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poke Estrela</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Rankear Pokémons da addon</h1>
+  <button type="submit" class="download" onclick="sendList()" id="send">Enviar lista</button>
+  <p id="pokeName" class="pokeName"></p>
+  <div class="pokeimage">
+    <button type="submit" onclick="last()"><</button>
+    <img src="" alt="" id="img" />
+    <button type="submit" onclick="next()">></button>
+  </div>
+  <span class="star">
+    <button id="star1" onclick="starRate(1)">⭐</button>
+    <button id="star2" onclick="starRate(2)">⭐</button>
+    <button id="star3" onclick="starRate(3)">⭐</button>
+    <button id="star4" onclick="starRate(4)">⭐</button>
+    <button id="star5" onclick="starRate(5)">⭐</button>
+  </span>
+  <button class="remove" id="remove" onclick="remove()">Remover</button>
+  <script src="main.js"></script>
+</body>
+</html>
