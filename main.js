@@ -296,7 +296,7 @@ const pokemons = [
   "910"
 ]
 
-let select = 1
+let select = 0
 let dataStar = JSON.parse(localStorage.getItem("dataStar")) ?? {}
 let dataPoke = JSON.parse(localStorage.getItem("dataPoke")) ?? {
   1: [],
@@ -310,16 +310,17 @@ const pokeName = document.getElementById("pokeName")
 const pokeImage = document.getElementById("img")
 
 async function pokeLoad(imput) {
-  const req = await fetch(`https://pokeapi.co/api/v2/pokemon/${imput}`)
+  const pokemon = pokemons[imput]
+  const req = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
   const pokedata = await req.json()
   
-  pokeName.innerHTML = `${pokedata.name} | ID: ${imput}<br> ${select}/${pokemons.length}`
-  pokeImage.setAttribute("src", `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${imput}.png`)
+  pokeName.innerHTML = `${pokedata.name} | ID: ${pokemon}<br> ${select + 1}/${pokemons.length}`
+  pokeImage.setAttribute("src", `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon}.png`)
   dataLoad()
 }
 
 function last() {
-  if (select === 1) return
+  if (select === 0) return
   pokeName.textContent = "Carregando..."
   select--
   pokeLoad(select)
@@ -334,15 +335,16 @@ function next() {
 
 function starRate(starP) {
   document.getElementById("remove").style.visibility = "visible"
+  const pokemon = pokemons[select]
   if (dataStar[select]) {
     if (dataStar[select].star === starP) return
     const current = dataStar[select].star
-    const index = dataPoke[current].findIndex(f => f === `${select}`)
+    const index = dataPoke[current].findIndex(f => f === `${pokemon}`)
     
     dataPoke[current].splice(index, 1)
   }
   dataStar[select] = { star: starP }
-  dataPoke[starP].push(`${select}`)
+  dataPoke[starP].push(`${pokemon}`)
   console.log(JSON.stringify(dataPoke, null, 2))
   localStorage.setItem("dataStar", JSON.stringify(dataStar))
   localStorage.setItem("dataPoke", JSON.stringify(dataPoke))
@@ -377,8 +379,9 @@ function dataLoad() {
 }
 
 function remove() {
+  const pokemon = pokemons[select]
   const star = dataStar[select].star
-  const index = dataPoke[star].findIndex(f => f === `${select}`)
+  const index = dataPoke[star].findIndex(f => f === `${pokemon}`)
   
   delete dataStar[select]
   dataPoke[star].splice(index, 1)
@@ -399,4 +402,4 @@ function sendList() {
   setInterval(() => button.textContent = "Enviar lista", 5000)
 }
 
-pokeLoad(1)
+pokeLoad(0)
